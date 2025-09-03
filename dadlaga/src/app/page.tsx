@@ -6,6 +6,8 @@ import { fetchViewership } from "@/lib/api";
 import MapView from "@/components/MapView";
 import Legend from "@/components/Legend";
 import { RAMP } from "@/lib/constants";
+import TopFive from "@/components/TopFive";
+import OverallTable from "@/components/OverallTable";
 
 type Mode = "choropleth" | "distinct";
 
@@ -104,25 +106,9 @@ export default function Page() {
 
         <Legend breaks={breaks} />
 
-        <div className="p-4 border rounded">
-          <div className="font-semibold mb-2">Top 5</div>
-          <ol className="space-y-1">
-            {Object.entries(dataMap)
-              .filter(([, v]) => typeof v === "number")
-              .sort((a, b) => (b[1] as number) - (a[1] as number))
-              .slice(0, 5)
-              .map(([slug, v], i) => (
-                <li key={slug} className="flex justify-between text-sm">
-                  <span className="font-medium">
-                    {i + 1}. {slug}
-                  </span>
-                  <span className="font-semibold">
-                    {(v as number).toLocaleString()}
-                  </span>
-                </li>
-              ))}
-          </ol>
-        </div>
+        <TopFive dataMap={dataMap} />
+
+        <OverallTable dataMap={dataMap} styledGeo={geo} />
       </div>
     </main>
   );
