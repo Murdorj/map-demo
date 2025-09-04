@@ -58,19 +58,24 @@ export default function Page() {
   }, [dataMap]);
 
   return (
-    <main className="min-h-screen grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 p-4">
-      <MapView geo={geo} mode={mode} normalized={normalized} view={view} />
+    <main className="min-h-screen grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 p-6 bg-gray-50">
+      {/* Map Section */}
+      <div className="h-[80vh] rounded-xl shadow-md border bg-white overflow-hidden">
+        <MapView geo={geo} mode={mode} normalized={normalized} view={view} />
+      </div>
 
-      <div className="space-y-4">
-        <div className="p-4 border rounded">
-          <div className="text-sm text-gray-500">Date</div>
+      {/* Sidebar */}
+      <div className="space-y-6">
+        {/* Date filter */}
+        <div className="bg-white shadow-sm rounded-xl p-4 text-gray-700 border">
+          <div className="text-base font-semibold mb-2">📅 Date</div>
           <input
-            className="mt-1 w-full border rounded px-2 py-1"
+            className="mt-1 w-full border rounded px-2 py-1 text-sm"
             type="month"
             value={activeDate}
             onChange={(e) => setActiveDate(e.target.value)}
           />
-          <label className="mt-3 flex items-center gap-2">
+          <label className="mt-3 flex items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={normalized}
@@ -80,10 +85,11 @@ export default function Page() {
           </label>
         </div>
 
-        <div className="p-4 border rounded">
-          <div className="font-semibold mb-2">Display mode</div>
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2">
+        {/* Mode toggle */}
+        <div className="bg-white shadow-sm rounded-xl p-4 text-gray-700 border">
+          <div className="text-base font-semibold mb-3">🗺️ Display Mode</div>
+          <div className="flex flex-col gap-2 text-sm">
+            <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
                 name="mode"
@@ -92,7 +98,7 @@ export default function Page() {
               />
               <span>Choropleth (үзэлтээр)</span>
             </label>
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
                 name="mode"
@@ -104,10 +110,13 @@ export default function Page() {
           </div>
         </div>
 
+        {/* Legend */}
         <Legend breaks={breaks} />
 
+        {/* Top 5 */}
         <TopFive dataMap={dataMap} />
 
+        {/* Overall Table */}
         <OverallTable dataMap={dataMap} styledGeo={geo} />
       </div>
     </main>

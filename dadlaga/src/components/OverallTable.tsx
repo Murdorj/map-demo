@@ -19,25 +19,23 @@ export default function OverallTable({
         (f: any) => f.properties.slug === slug
       );
 
-      // Mongolian name → constants → geo → slug
       const displayName =
-        MN_NAME_BY_SLUG[slug] ||
-        feature?.properties?.name ||
-        slug;
+        MN_NAME_BY_SLUG[slug] || feature?.properties?.name || slug;
 
       return { slug, name: displayName, value: v ?? 0 };
     });
 
-    // sort хийх
     return arr.sort((a, b) =>
       sortOrder === "desc" ? b.value - a.value : a.value - b.value
     );
   }, [dataMap, styledGeo, sortOrder]);
 
   return (
-    <div className="p-4 border rounded">
-      <div className="flex items-center justify-between mb-2">
-        <div className="font-semibold">Overall Viewership</div>
+    <div className="p-4 border rounded-xl shadow-sm bg-white/80 text-gray-700">
+      <div className="flex items-center justify-between mb-3">
+        <div className="font-semibold text-gray-700 text-lg">
+          Overall Viewership
+        </div>
         <button
           onClick={() =>
             setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
@@ -48,26 +46,28 @@ export default function OverallTable({
         </button>
       </div>
 
-      <table className="w-full text-sm border-collapse">
-        <thead>
-          <tr>
-            <th className="border px-2 py-1 text-left">#</th>
-            <th className="border px-2 py-1 text-left">Аймаг</th>
-            <th className="border px-2 py-1 text-right">Үзэлт</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, idx) => (
-            <tr key={row.slug}>
-              <td className="border px-2 py-1">{idx + 1}</td>
-              <td className="border px-2 py-1">{row.name}</td>
-              <td className="border px-2 py-1 text-right">
-                {row.value.toLocaleString()}
-              </td>
+      <div className="overflow-x-auto text-gray-700">
+        <table className="w-full text-sm border-collapse">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="border px-2 py-1 text-left w-10">#</th>
+              <th className="border px-2 py-1 text-left">Аймаг</th>
+              <th className="border px-2 py-1 text-right">Үзэлт</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map((row, idx) => (
+              <tr key={row.slug} className="hover:bg-gray-50 transition-colors">
+                <td className="border px-2 py-1">{idx + 1}</td>
+                <td className="border px-2 py-1">{row.name}</td>
+                <td className="border px-2 py-1 text-right font-bold text-gray-700 ">
+                  {row.value.toLocaleString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
